@@ -3,13 +3,16 @@
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/fs-extra": "^11.0.4"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
     "@linear/sdk": "^24.0.0",
-    "arktype": "^2.0.0-dev.26"
+    "@std/assert": "npm:@jsr/std__assert",
+    "arktype": "^2.0.0-dev.26",
+    "fs-extra": "^11.2.0"
   }
 }
