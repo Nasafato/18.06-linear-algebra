@@ -13,6 +13,8 @@
     "@linear/sdk": "^24.0.0",
     "@std/assert": "npm:@jsr/std__assert",
     "arktype": "^2.0.0-dev.26",
-    "fs-extra": "^11.2.0"
+    "date-fns": "^3.6.0",
+    "fs-extra": "^11.2.0",
+    "ts-pattern": "^5.2.0"
   }
 }
