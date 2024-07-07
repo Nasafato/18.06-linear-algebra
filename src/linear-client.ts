@@ -1,6 +1,7 @@
 import { LinearClient as LinearClientSDK } from "@linear/sdk";
 import { assert } from "@std/assert/assert";
 import { type } from "arktype";
+import { addDays } from "date-fns/addDays";
 
 const envVarsType = type({
   LINEAR_API_KEY: "string",
@@ -52,6 +53,52 @@ export class LinearClient {
     assert(project, "Failed to create project");
 
     return project;
+  }
+
+  async shiftProjectDates(args: { projectId: string; shiftDays: number }) {
+    const project = await this.client.project(args.projectId);
+
+    const milestones = await project.projectMilestones();
+    for (const milestone of milestones.nodes) {
+      if (milestone.targetDate) {
+        const newTargetDate = addDays(
+          new Date(milestone.targetDate),
+          args.shiftDays
+        );
+        await this.client.updateProjectMilestone(milestone.id, {
+          targetDate: newTargetDate,
+        });
+      }
+    }
+
+    const issues = await project.issues();
+    for (const issue of issues.nodes) {
+      if (issue.dueDate) {
+        const newDueDate = addDays(new Date(issue.dueDate), args.shiftDays);
+        await this.client.updateIssue(issue.id, { dueDate: newDueDate });
+      }
+    }
+  }
+
+  async shiftMilestoneDates(args: { milestoneId: string; shiftDays: number }) {
+    const milestone = await this.client.projectMilestone(args.milestoneId);
+    assert(milestone, "Milestone is required");
+
+    const newTargetDate = addDays(
+      new Date(milestone.targetDate),
+      args.shiftDays
+    );
+    await this.client.updateProjectMilestone(milestone.id, {
+      targetDate: newTargetDate,
+    });
+
+    const issues = await milestone.issues();
+    for (const issue of issues.nodes) {
+      if (issue.dueDate) {
+        const newDueDate = addDays(new Date(issue.dueDate), args.shiftDays);
+        await this.client.updateIssue(issue.id, { dueDate: newDueDate });
+      }
+    }
   }
 
   async getProject(args: { id: string }) {

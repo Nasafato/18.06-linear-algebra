@@ -1,4 +1,8 @@
-# 18.06-linear-algebra
+# The Learner's Guide to Learning Machine Learning
+
+This repo contains utilities to track your learning using tools like Linear.
+
+It contains downloading and parsing logic.
 
 To install dependencies:
 

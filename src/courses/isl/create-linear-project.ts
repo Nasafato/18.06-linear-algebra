@@ -56,7 +56,9 @@ async function main() {
   let project: Project | null = null;
   if (shouldRun) {
     console.log("[run] Creating project", "ISL");
-    project = await linearClient.createProject({ name: "ISL" });
+    project = await linearClient.createProject({
+      name: "ISL: Introduction to Statistical Learning",
+    });
   }
   let currChapter = 0;
   let currChapterName = "";
@@ -130,7 +132,7 @@ async function main() {
           }
         })
         .with(["QuizHeading", P.any], async ([_, match]) => {
-          const quizNumber = Number.parseInt(match[1], 10);
+          const quizNumber = match[1];
           const name = `Quiz ${quizNumber}: ${currChapterName}`;
           if (shouldRun) {
             assert(project, "Project not found");
@@ -155,7 +157,7 @@ async function main() {
           }
         })
         .with(["LabHeading", P.any], async ([_, match]) => {
-          const labNumber = Number.parseInt(match[1], 10);
+          const labNumber = match[1];
           const name = `Lab ${labNumber}: ${match[2]}`;
           if (shouldRun) {
             assert(project, "Project not found");
@@ -180,7 +182,7 @@ async function main() {
           }
         })
         .with(["SectionHeading", P.any], async ([_, match]) => {
-          const sectionNumber = Number.parseInt(match[1], 10);
+          const sectionNumber = match[1];
           const name = `Section ${sectionNumber}: ${match[2]}`;
           if (shouldRun) {
             assert(project, "Project not found");
